@@ -2,6 +2,7 @@
 */bin
 */.settings
 *.iml
+.idea
 
 #################
 ## Eclipse
