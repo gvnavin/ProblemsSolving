@@ -1,8 +1,5 @@
 package com.tree;
 
-import java.util.ArrayDeque;
-import java.util.Queue;
-
 /**
  * Created by gnavin on 9/27/15.
  */
@@ -13,8 +10,14 @@ public class TreeNode {
     public TreeNode right;
     public int level;
 
+    public int noOfNodesInLeftSubtree;
+    public int noOfNodesInRightSubtree;
+
     public TreeNode(int value) {
         this.value = value;
+        noOfNodesInLeftSubtree = 0;
+        noOfNodesInRightSubtree = 0;
+        level = 0;
     }
 
 }

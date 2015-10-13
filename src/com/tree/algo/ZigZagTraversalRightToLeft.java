@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Stack;
 
 /**
- * Created by gnavin on 9/27/15.
+ * Created by gnavin on 10/6/15.
  */
-public class ZigZagTraversalLeftToRight {
+public class ZigZagTraversalRightToLeft {
 
     public static void main(String[] args) {
         traverse(new BalancedTree().getRoot());
@@ -21,9 +21,9 @@ public class ZigZagTraversalLeftToRight {
 
     public static void traverse(final TreeNode root) {
         /*
-        ---->  l, r
-            |
-        <----  r, l
+        <---- r, l
+        |
+        ----> l, r
         */
 
         final Stack<TreeNode> st1 = new Stack<TreeNode>();
@@ -42,11 +42,11 @@ public class ZigZagTraversalLeftToRight {
                 }
 
                 zigZagOrder.add(temp);
-                if (temp.left != null) {
-                    st2.push(temp.left);
-                }
                 if (temp.right != null) {
                     st2.push(temp.right);
+                }
+                if (temp.left != null) {
+                    st2.push(temp.left);
                 }
             }
             while (!st2.isEmpty()) {
@@ -56,11 +56,11 @@ public class ZigZagTraversalLeftToRight {
                 }
 
                 zigZagOrder.add(temp);
-                if (temp.right != null) {
-                    st1.push(temp.right);
-                }
                 if (temp.left != null) {
                     st1.push(temp.left);
+                }
+                if (temp.right != null) {
+                    st1.push(temp.right);
                 }
             }
 

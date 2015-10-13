@@ -2,74 +2,137 @@ package com.tree;
 
 import com.tree.algo.Height;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Created by gnavin on 9/27/15.
  */
-public abstract class Tree {
+public class Tree {
 
     private final TreeNode root;
+
+    public Tree() {
+        this.root = createTree();
+        assignLevelToNode();
+    }
+
+    public Tree(TreeNode root) {
+        this.root = root;
+        assignLevelToNode();
+    }
+
+    public static void printByLevel(final List<TreeNode> order) {
+        int currentLevel = 0;
+        for (TreeNode node : order) {
+            if (currentLevel != node.level) {
+                System.out.println();
+                currentLevel = node.level;
+            }
+            System.out.print(node.value);
+            System.out.print(" ");
+        }
+        System.out.println();
+    }
 
     public TreeNode getRoot() {
         return root;
     }
 
-    public Tree() {
-        root = createTree();
-        assignLevelToNode();
+    protected TreeNode createTree() {
+        return null;
     }
 
-    protected abstract TreeNode createTree();
+    public void ZigZagTraversalRightToLeft() {
+        /*
+        <---- r, l
+        |
+        ----> l, r
+        */
+
+        final Stack<TreeNode> st1 = new Stack<TreeNode>();
+
+        final Stack<TreeNode> st2 = new Stack<TreeNode>();
+
+        st1.push(root);
+        final List<TreeNode> zigZagOrder = new ArrayList<TreeNode>();
+
+        while (!st1.isEmpty() || !st2.isEmpty()) {
+
+            while (!st1.isEmpty()) {
+                final TreeNode temp = st1.pop();
+                if (temp == null) {
+                    return;
+                }
+
+                zigZagOrder.add(temp);
+                if (temp.right != null) {
+                    st2.push(temp.right);
+                }
+                if (temp.left != null) {
+                    st2.push(temp.left);
+                }
+            }
+            while (!st2.isEmpty()) {
+                final TreeNode temp = st2.pop();
+                if (temp == null) {
+                    return;
+                }
+
+                zigZagOrder.add(temp);
+                if (temp.left != null) {
+                    st1.push(temp.left);
+                }
+                if (temp.right != null) {
+                    st1.push(temp.right);
+                }
+            }
+
+        }
+        BalancedTree.printByLevel(zigZagOrder);
+    }
 
     public void ZigZagTraversalLeftToRight() {
         /*
-        ---->
+        ---->  l, r
             |
-        <----
+        <----  r, l
         */
 
-        final TreeNode temp_root = this.root;
+        final Stack<TreeNode> st1 = new Stack<TreeNode>();
 
-        final Stack<TreeNode> stLR = new Stack<TreeNode>();
+        final Stack<TreeNode> st2 = new Stack<TreeNode>();
 
-        final Stack<TreeNode> stRL = new Stack<TreeNode>();
-
-        stLR.push(temp_root);
+        st1.push(root);
         final List<TreeNode> zigZagOrder = new ArrayList<TreeNode>();
 
-        while (!stLR.isEmpty() || !stRL.isEmpty()) {
+        while (!st1.isEmpty() || !st2.isEmpty()) {
 
-            while (!stLR.isEmpty()) {
-                final TreeNode temp = stLR.pop();
+            while (!st1.isEmpty()) {
+                final TreeNode temp = st1.pop();
                 if (temp == null) {
                     return;
                 }
 
                 zigZagOrder.add(temp);
                 if (temp.left != null) {
-                    stRL.push(temp.left);
+                    st2.push(temp.left);
                 }
                 if (temp.right != null) {
-                    stRL.push(temp.right);
+                    st2.push(temp.right);
                 }
             }
-            while (!stRL.isEmpty()) {
-                final TreeNode temp = stRL.pop();
+            while (!st2.isEmpty()) {
+                final TreeNode temp = st2.pop();
                 if (temp == null) {
                     return;
                 }
 
                 zigZagOrder.add(temp);
                 if (temp.right != null) {
-                    stLR.push(temp.right);
+                    st1.push(temp.right);
                 }
                 if (temp.left != null) {
-                    stLR.push(temp.left);
+                    st1.push(temp.left);
                 }
             }
 
@@ -122,7 +185,6 @@ public abstract class Tree {
         return Math.max(lh, rh) + 1;
     }
 
-
     public void assignLevelToNode() {
         root.level = 0;
         final Queue<TreeNode> queue = new ArrayDeque<TreeNode>();
@@ -145,7 +207,6 @@ public abstract class Tree {
                 queue.add(temp.right);
             }
         }
-        return;
     }
 
     public List<TreeNode> getLevelOrder() {
@@ -204,6 +265,7 @@ public abstract class Tree {
     }
 
     public void printByLevel() {
+        System.out.println("Print Tree By Level");
         final List<TreeNode> levelOrder = getLevelOrder();
         int currentLevel = 0;
         for (TreeNode node : levelOrder) {
@@ -211,22 +273,11 @@ public abstract class Tree {
                 System.out.println();
                 currentLevel = node.level;
             }
-            System.out.print(node.value);
+            System.out.print(
+                    node.value + "(" + node.level + "," + node.noOfNodesInLeftSubtree + "," + node.noOfNodesInRightSubtree
+                            + ")");
             System.out.print(" ");
         }
-    }
-
-    public static void printByLevel(final List<TreeNode> order) {
-        int currentLevel = 0;
-        for (TreeNode node : order) {
-            if (currentLevel != node.level) {
-                System.out.println();
-                currentLevel = node.level;
-            }
-            System.out.print(node.value);
-            System.out.print(" ");
-        }
-        System.out.println();
     }
 
 }
