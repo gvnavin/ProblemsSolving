@@ -1,48 +1,37 @@
 /*
-#include <iostream>
 #include <vector>
+#include <iostream>
 #include <algorithm>
-#include <set>
 using namespace std;
 
 class Solution {
-public:
-    vector<vector<int> > combinationSum2(vector<int> &candidates, int target) {
-
-		sort(candidates.begin(), candidates.end());
-		
-		set<vector<int> > outputSet;
-		vector<int> emptyCombination;
-		combinationSumHelper(candidates, target, 0, emptyCombination, outputSet);
-		vector<vector<int> > output(outputSet.begin(), outputSet.end());
-		return output;
-    }
-
-	void combinationSumHelper(vector<int> &candidates, int target, int index, vector<int>& previousCombination, set<vector<int> >& output) {
+private:
+	void combinationSum2Helper(vector<int> &num, int target, int index, vector<int> &candidateSet, vector<vector<int> > &output) {
 
 		if (target == 0) {
-			sort(previousCombination.begin(), previousCombination.end());
-			output.insert(previousCombination);
+			output.push_back(candidateSet);
 			return;
 		}
-		if (target < 0) return;
+		if (index >= num.size()) return;
+		int currentCandidate = num[index];
+		int nextCandidateIndex = index+1;
 
-		for (int i=index; i<candidates.size(); i++) {
-
-			int currentCandidate = candidates[i];
-
-			if (currentCandidate <= target) {
-				vector<int> combination(previousCombination.begin(), previousCombination.end());
-				combination.push_back(currentCandidate);
-				combinationSumHelper(candidates, target - currentCandidate, i+1, combination, output);
-			}
+		while (nextCandidateIndex < num.size() && num[nextCandidateIndex-1] == num[nextCandidateIndex]) {
+			++nextCandidateIndex;
+		}
+		for (int i=0; i<= nextCandidateIndex-index && (i*currentCandidate <= target); ++i) {
+			candidateSet.insert(candidateSet.end(), i, currentCandidate);
+			combinationSum2Helper(num, target-(currentCandidate*i), nextCandidateIndex, candidateSet, output);
+			candidateSet.resize(candidateSet.size()-i);
 		}
 	}
-};
-
-int main() {
-	int c[] = {10,1,2,7,6,1,5};
-	vector<int> candidates(c, c+ sizeof(c)/sizeof(c[0]));
-	vector<vector<int> > output = Solution().combinationSum(candidates, 8);
-	return 0;
-}*/
+public:
+    vector<vector<int> > combinationSum2(vector<int> &num, int target) {
+        
+		sort(num.begin(), num.end());
+		vector<int> empty;
+		vector<vector<int> > output;
+		combinationSum2Helper(num, target, 0, empty, output);
+		return output;
+    }
+};*/

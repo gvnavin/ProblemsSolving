@@ -1,53 +1,36 @@
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode(int x) : val(x), next(NULL) {}
- * };
- */
+/*
+#include <iostream>
+using namespace std;
+
+struct ListNode {
+	int val;
+	ListNode *next;
+	ListNode(int x) : val(x), next(NULL) {}
+ };
+ 
 class Solution {
 public:
-    ListNode *addTwoNumbers(ListNode *L1, ListNode *L2) {
-        // Start typing your C/C++ solution below
-        // DO NOT write int main() functio
+    ListNode *addTwoNumbers(ListNode *l1, ListNode *l2) {
         
-        ListNode * l1,*l2;
-        l1 = L1;
-        l2 = L2;
-        
-        if(!l1) return l2;
-        if(!l2) return l1;
-        
-        int carry = 0;
-        ListNode * ptr;
-        while(l1&&l2) {
-            int temp = (l1->val + l2->val + carry );
-            l1->val = temp %10;
-            carry = temp /10;
-            ptr = l1;
-            l1 = l1->next;
-            l2 = l2->next;
-        }
-        while(l1) {
-            int temp = (l1->val + carry );
-            l1->val = temp %10;
-            carry = temp /10;
-            ptr= l1;
-            l1 = l1->next;
-        }
-        while(l2) {
-            int temp = (l2->val + carry );
-            ptr->next = new ListNode(0);
-            ptr = ptr->next;
-            ptr->val = temp%10;
-            carry = temp/10;
-            l2 = l2->next;
-        }
-        if(carry) {
-            ptr->next = new ListNode(1);
-        }
-        
-        return L1;
+		ListNode *HEAD_SENTINAL = new ListNode(INT_MIN);
+		ListNode *currentNode = HEAD_SENTINAL;
+		int carry = 0;
+		while (l1 != NULL || l2 != NULL || carry == 1) {
+			int currentDigit = 0;
+			if (l1 != NULL) {
+				currentDigit += l1->val;
+				l1 = l1->next;
+			}
+			if (l2 != NULL) {
+				currentDigit += l2->val;
+				l2 = l2->next;
+			}
+			currentDigit += carry;
+			carry = currentDigit/10;
+			currentDigit %= 10;
+			currentNode->next = new ListNode(currentDigit);
+			currentNode = currentNode->next;
+		}
+		return HEAD_SENTINAL->next;
     }
-};
+};*/

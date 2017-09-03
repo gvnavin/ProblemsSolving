@@ -1,35 +1,36 @@
 /*
 #include <iostream>
-#include <math.h>
-#include <string>
 using namespace std;
 
 class Solution {
 public:
-    int divide(int dividend, int divisor) {
-		
-		long long int signDividend = dividend < 0 ? -1ll : 1ll;
-		long long int signDivisor = divisor < 0 ? -1ll : 1ll;
-		long long int uDividend = abs(long long int(dividend));
-		long long int uDivisor = abs(long long int(divisor));
-
-		long long int low = 0;
-		long long int high = uDividend;
-
-		while (high - low > 1) {
-			long long int mid = low + ((high-low) >> 1);
-			long long int midTimesDivisor = multiply(mid, uDivisor);
-			if (midTimesDivisor == uDividend) {
-				return mid * signDividend / signDivisor;
-			}
-			else if (midTimesDivisor < uDividend) {
+    int divide(long long dividend, long long divisor) {
+        
+    	if (divisor == 0) return INT_MAX;
+		long long low = 0ll;
+		long long high = dividend;
+		int signDividend = 1;
+		int signDivisor = 1;
+		if (dividend < 0) {
+			high *= -1ll;
+			dividend *= -1ll;
+			signDividend = -1;
+		}
+		if (divisor < 0) {
+			divisor *= -1ll;
+			signDivisor = -1;
+		}
+		while (low < high) {
+			long long mid = low + (high-low+1ll)/2ll;
+			long long midTimesDivisor = multiply(mid,divisor);
+			if (midTimesDivisor == dividend) return mid*signDividend/signDivisor;
+			else if (midTimesDivisor < dividend) {
 				low = mid;
-			}
-			else {
-				high = mid;
+			} else {
+				high = mid-1;
 			}
 		}
-		return (low + ((high-low) >> 1)) * signDividend / signDivisor;
+		return low*signDividend/signDivisor;
     }
 
 	long long int multiply(long long int a, long long int b) {
@@ -59,8 +60,7 @@ public:
 	}
 };
 
-
 int main() {
-	cout << Solution().divide(-2147483648,2);
+	cout << Solution().divide(-2147483648ll, 1);
 	system("pause");
 }*/

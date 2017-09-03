@@ -2,6 +2,8 @@
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <stack>
+
 using namespace std;
 
 struct TreeNode {
@@ -14,90 +16,44 @@ struct TreeNode {
 class Solution {
 public:
     vector<vector<int> > zigzagLevelOrder(TreeNode *root) {
-		
-			vector<vector<int> > output;
+        
+		vector<vector<int> > output;
 		if (!root) return output;
 
-		deque<TreeNode *> q;
-		q.push_back(root);
-		int currentLevelNodeCount = 1;
-		int nextLevelNodeCount = 0;
-		output.push_back(vector<int>());
-		bool mode = true;
-		while (!q.empty()) {
+		bool leftToRight = true;
+		stack<TreeNode *> stackOne;
+		stack<TreeNode *> stackTwo;
+		stack<TreeNode *> *currentStack = &stackOne;
+		stack<TreeNode *> *nextStack = &stackTwo;
+		currentStack->push(root);
+		output.resize(output.size()+1);
+		while (!currentStack->empty()) {
+			TreeNode *currentNode = currentStack->top();
+			currentStack->pop();
 
-			TreeNode *currentNode = NULL;
-			if (mode) {
-				currentNode = q.back();
-				q.pop_back();
-			} else {
-				currentNode = q.front();
-				q.pop_front();
-			}
-			--currentLevelNodeCount;
-
-			output.back().push_back(currentNode->val);
-
-			if (mode) {
-				if (currentNode->left != NULL) {
-					++nextLevelNodeCount;
-					if (mode) {
-						q.push_front(currentNode->left);
-					} else {
-						q.push_back(currentNode->left);
-					}
+			if (currentNode != NULL) {
+				output.back().push_back(currentNode->val);
+				if (leftToRight) {
+					nextStack->push(currentNode->left);
+					nextStack->push(currentNode->right);
+				} else {
+					nextStack->push(currentNode->right);
+					nextStack->push(currentNode->left);
 				}
-
-				if (currentNode->right != NULL) {
-					++nextLevelNodeCount;
-					if (mode) {
-						q.push_front(currentNode->right);
-					} else {
-						q.push_back(currentNode->right);
-					}
+			}	
+			if (currentStack->empty()) {
+				output.resize(output.size()+1);
+				if (currentStack == &stackOne) {
+					currentStack = &stackTwo;
+					nextStack = &stackOne;
+				} else {
+					currentStack = &stackOne;
+					nextStack = &stackTwo;
 				}
-			}
-			else {
-				if (currentNode->right != NULL) {
-					++nextLevelNodeCount;
-					if (mode) {
-						q.push_front(currentNode->right);
-					} else {
-						q.push_back(currentNode->right);
-					}
-				}
-
-				if (currentNode->left != NULL) {
-					++nextLevelNodeCount;
-					if (mode) {
-						q.push_front(currentNode->left);
-					} else {
-						q.push_back(currentNode->left);
-					}
-				}
-			}
-			if (currentLevelNodeCount == 0) {
-				vector<int> nodes;
-				output.push_back(nodes);
-				currentLevelNodeCount = nextLevelNodeCount;
-				nextLevelNodeCount = 0;
-				mode = !mode;
+				leftToRight = !leftToRight;
 			}
 		}
-
-		output.erase(output.end()-1);
+		output.resize(output.size()-2);
 		return output;
     }
-};
-
-int main() {
-	TreeNode *root = new TreeNode(3);
-	root->left = new TreeNode(9);
-
-	root->right = new TreeNode(20);
-	root->right->left = new TreeNode(15);
-	root->right->right = new TreeNode(7);
-
-	vector<vector<int> > output = Solution().zigzagLevelOrder(root);
-	system("pause");
-}*/
+};*/

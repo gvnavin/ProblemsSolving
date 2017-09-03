@@ -1,36 +1,44 @@
+/*
+#include <iostream>
+#include <string>
+
+using namespace std;
+
 class Solution {
 public:
     string addBinary(string a, string b) {
-        // Start typing your C/C++ solution below
-        // DO NOT write int main() function
-        string ans;
-        if(a.length() > b.length()) {
-            ans = helper(a,b);
-        }else {
-            ans =  helper(b,a);
-        }
-        return ans;
-    }
-    
-    string helper(string a,string b) {
-        int len1,len2;
-        len1 = a.length();
-        len2 = b.length();
-        int carry = 0;
-        int i;
-        for(i = 1; i <=len2; i++) {
-            int temp = a[len1 -i] -48 + b[len2 -i] - 48 + carry;
-            a[len1-i] = 48 + (temp)%2; 
-            carry = temp /2;
-        }
-        while(i<=len1) {
-            int temp = a[len1 -i] -48 + carry;
-            a[len1-i] = 48 + (temp)%2; 
-            carry = temp /2;
-            i++;
-        }
-        
-        if(carry) return "1" + a;
-        return a;
+		
+		int outputLength = max(a.size(),b.size())+1;
+		char *output = new char[outputLength+1];
+		output[outputLength] = '\0';
+		memset(output, 0, sizeof(char)*outputLength);
+		int outputIndex = outputLength-1;
+		int aIndex = a.size()-1;
+		int bIndex = b.size()-1;
+		int carry = 0;
+		while (aIndex >=0 || bIndex >= 0 || carry == 1) {
+			int currentBit = 0;
+			if (aIndex >= 0) {
+				currentBit += (a[aIndex] - '0');
+				--aIndex;
+			}
+			if (bIndex >= 0) {
+				currentBit += (b[bIndex] - '0');
+				--bIndex;
+			}
+			currentBit += carry;
+			carry = currentBit/2;
+			currentBit = currentBit%2;
+			output[outputIndex] = currentBit + '0';
+			--outputIndex;
+		}
+		if (outputIndex == 0) output++; 
+		return string(output);
     }
 };
+
+int main() {
+	string a = "11";
+	string b = "1";
+	string output = Solution().addBinary(a,b);
+}*/

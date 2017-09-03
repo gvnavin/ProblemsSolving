@@ -2,42 +2,33 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include <cfloat>
-
 using namespace std;
 
 class Solution {
 public:
     int threeSumClosest(vector<int> &num, int target) {
         
-		vector<float> numbers(num.begin(),num.end());
-		for (int i=0; i< numbers.size(); i++) {
-			numbers[i] -= (float(target)/3.0);
-		}
-		sort(numbers.begin(), numbers.end());
-		float difference = FLT_MAX;
-		float answer = FLT_MAX;
-		for (int i=numbers.size() -1; i>=2; i--) {
-			int indexOne = 0;
-			int indexTwo = i-1;
-			while (indexOne < indexTwo) {
-				float absValue = abs(numbers[indexOne] + numbers[indexTwo] + numbers[i]);
-				if (absValue < difference) {
-					answer = numbers[indexOne] + numbers[indexTwo] + numbers[i];
-					difference = absValue;
+		sort(num.begin(), num.end());
+		int difference = INT_MAX;
+		int answer = INT_MAX;
+		for (int i= num.size()-1; i>=2; --i) {
+
+			int index1 = 0;
+			int index2 = i-1;
+			while (index1 < index2) {
+				int value = num[index1] + num[index2] + num[i];
+				int currentDifference = abs(value-target);
+				if (currentDifference < difference) {
+					difference = currentDifference;
+					answer = value;
 				}
-				numbers[indexOne] + numbers[indexTwo] < -numbers[i] ? ++indexOne : --indexTwo;
+				if (value < target) {
+					++index1;
+				} else {
+					--index2;
+				}
 			}
 		}
-		answer = answer + float(target);
-		return answer >= 0 ? answer + 0.5 : answer - 0.5;
-	}
-};
-
-int main() {
-
-	int num[] = {-3,-2,-5,3,-4};
-	vector<int> numVector(num, num + sizeof(num)/sizeof(num[0]));
-	std::cout << Solution().threeSumClosest(numVector, -1);
-	system("pause");
-}*/
+		return answer;
+    }
+};*/

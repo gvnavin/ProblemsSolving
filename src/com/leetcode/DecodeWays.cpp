@@ -1,23 +1,30 @@
+/*
+#include <string>
+using namespace std;
+
 class Solution {
 public:
-    int numDecodings(string arr) {
-        // Start typing your C/C++ solution below
-        // DO NOT write int main() function
-        int len = arr.length();
-        if(!len) return 0;
-        int ans[len+1];
-        ans[len]=1;
-        if(arr[len-1] == '0') ans[len-1] = 0;
-        else ans[len-1] = 1;
-        for(int i = len -2; i>=0; i--) {
-            if(arr[i] == '0') {
-                ans[i] = 0;
-            }else if(arr[i] == '1'||(arr[i] =='2' && arr[i+1] <='6' )) {
-                ans[i] = ans[i+1] + ans[i+2];
-            }else {
-                ans[i]=ans[i+1];
-            }
-        }
-        return ans[0];
+    int numDecodings(string s) {
+
+		if (s.empty()) return 0;
+	
+		int *ways = new int[s.length()];
+		memset(ways, 0, sizeof(int)*s.length());
+		if (s[0] == '0') {
+			ways[0] = 0;
+		} else {
+			ways[0] = 1;
+		}
+		for (int i=1; i<s.length(); ++i) {
+			if (s[i] == '0') {
+				ways[i] = 0;
+			} else {
+				ways[i] = ways[i-1];
+			} 
+			if (s[i-1] == '1' || (s[i-1] == '2' && s[i] <= '6')) {
+				ways[i] += (i-2 >= 0 ? ways[i-2] : 1);
+			}
+		}
+		return ways[s.length()-1];
     }
-};
+};*/
