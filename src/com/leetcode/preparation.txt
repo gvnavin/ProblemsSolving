@@ -1,0 +1,26 @@
+1.Revise cormen
+2.leetcode question
+3. design  ----
+4. java
+5. c++ ----
+6. project
+7. os
+8. spoj
+9. facebook specific questions
+
+1.Complete graph  (1)
+2. then do a walk on all algo parts (2)
+3.do a walk through on OS. (2)
+4 do a walk through on math. (1)
+then all code walk through (1)
+---------------do coding questions and designing from career cup--------------------------
+
+1. Do a walk through on OS and Designing Questions.
+2. Then read book.
+3. Create something by end of janauary.
+
+ 
+
+
+
+
